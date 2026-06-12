@@ -5,7 +5,7 @@
 > 把你的Skill拿到造物工坊，让造物主重新捏塑一遍。
 
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-nuwa-blueviolet)](skills/女娲/SKILL.md)
-[![skills.sh](https://img.shields.io/badge/skills.sh-待接引-lightgrey)](https://skills.sh)
+[![skills.sh](https://img.shields.io/badge/skills.sh-待接引-lightgrey)](https://skills.sh/b/greatweir-star/nuwa-skill)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **把一个"能用的Skill"，塑造成"能被理解、能被接引、能被传播、能被验证、能持续轮回"的公共生灵。**

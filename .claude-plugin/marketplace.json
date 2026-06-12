@@ -1,16 +1,16 @@
 {
   "name": "女娲",
-  "owner": { "name": "alice", "url": "https://github.com/alice" },
+  "owner": { "name": "greatweir-star", "url": "https://github.com/greatweir-star" },
   "metadata": { "description": "Marketplace hosting the 女娲 (Nuwa) plugin." },
   "plugins": [
     {
       "name": "女娲",
       "description": "Skill造物工坊。把一个能用的Skill塑造成能被理解、能被接引、能被传播、能被验证、能持续轮回的公共生灵。",
       "version": "1.0.0",
-      "author": { "name": "alice", "url": "https://github.com/alice" },
+      "author": { "name": "greatweir-star", "url": "https://github.com/greatweir-star" },
       "source": "./",
       "category": "productivity",
-      "homepage": "https://github.com/alice/nuwa-skill"
+      "homepage": "https://github.com/greatweir-star/nuwa-skill"
     }
   ]
 }

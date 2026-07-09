@@ -1,0 +1,11 @@
+{
+  "name": "ppt-deck-studio",
+  "version": "0.1.0",
+  "description": "Agent skill for creating editable PPTX decks, HTML presentations, and image-card decks.",
+  "skills": [
+    {
+      "name": "ppt-deck-studio",
+      "path": "skills/ppt-deck-studio/SKILL.md"
+    }
+  ]
+}

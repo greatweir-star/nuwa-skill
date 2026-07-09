@@ -1,0 +1,4 @@
+interface:
+  display_name: "PPT Deck Studio"
+  short_description: "Research-backed PPT and slide deck creation"
+  default_prompt: "Use $ppt-deck-studio to turn my source material into a polished editable PPT or presentation deck."

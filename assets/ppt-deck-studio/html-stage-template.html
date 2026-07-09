@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTML Stage Deck</title>
+  <style>
+    :root {
+      --bg: #f7f6f1;
+      --ink: #111111;
+      --muted: #68645c;
+      --accent: #d3422f;
+      --panel: #ffffff;
+      --line: rgba(17, 17, 17, 0.16);
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      overflow: hidden;
+    }
+
+    .deck {
+      width: 100vw;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: min(3vw, 32px);
+    }
+
+    .slide {
+      width: min(100%, calc(100vh * 16 / 9));
+      aspect-ratio: 16 / 9;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 5%;
+      padding: 5.5%;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(17, 17, 17, 0.10);
+    }
+
+    .kicker {
+      color: var(--accent);
+      font-size: clamp(14px, 1.2vw, 18px);
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 22px 0 0;
+      font-size: clamp(38px, 5.2vw, 82px);
+      line-height: 0.94;
+      letter-spacing: 0;
+      max-width: 9ch;
+    }
+
+    .body {
+      align-self: end;
+      font-size: clamp(18px, 1.75vw, 28px);
+      line-height: 1.28;
+      color: var(--muted);
+      max-width: 28ch;
+    }
+
+    .body strong { color: var(--ink); }
+
+    .marker {
+      position: absolute;
+      right: 5.5%;
+      top: 5.5%;
+      font-size: clamp(18px, 1.7vw, 28px);
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .progress {
+      position: fixed;
+      left: 24px;
+      right: 24px;
+      bottom: 18px;
+      height: 3px;
+      background: rgba(17, 17, 17, 0.12);
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: var(--accent);
+      transition: width 180ms ease;
+    }
+
+    .notes {
+      position: fixed;
+      right: 24px;
+      bottom: 36px;
+      width: min(420px, calc(100vw - 48px));
+      max-height: 36vh;
+      overflow: auto;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+      display: none;
+    }
+
+    body.show-notes .notes { display: block; }
+
+    @media print {
+      body { overflow: visible; background: white; }
+      .deck { display: block; height: auto; padding: 0; }
+      .slide { width: 100vw; box-shadow: none; page-break-after: always; }
+      .progress, .notes { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-live="polite">
+    <section class="slide" id="slide"></section>
+  </main>
+  <div class="notes" id="notes"></div>
+  <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+
+  <script>
+    const slides = [
+      {
+        kicker: "01 / Opening",
+        title: "Replace this with the deck thesis",
+        body: "Use one strong sentence and one supporting proof point. <strong>Keep it readable from the back row.</strong>",
+        notes: "Speaker note for the opening slide. Replace this with the spoken setup."
+      },
+      {
+        kicker: "02 / Proof",
+        title: "Make the evidence visible",
+        body: "Use the right side for a chart, image, or concise explanation. Keep visible text sparse.",
+        notes: "Speaker note for the proof slide. Mention source and implication."
+      }
+    ];
+
+    let index = 0;
+    const slideEl = document.getElementById("slide");
+    const notesEl = document.getElementById("notes");
+    const progressEl = document.getElementById("progress");
+
+    function render() {
+      const slide = slides[index];
+      slideEl.innerHTML = `
+        <div>
+          <div class="kicker">${slide.kicker}</div>
+          <h1>${slide.title}</h1>
+        </div>
+        <div class="body">${slide.body}</div>
+        <div class="marker">${String(index + 1).padStart(2, "0")}</div>
+      `;
+      notesEl.textContent = slide.notes || "";
+      progressEl.style.width = `${((index + 1) / slides.length) * 100}%`;
+      location.hash = `slide-${index + 1}`;
+      document.title = `${index + 1}/${slides.length} ${slide.title}`;
+    }
+
+    function go(next) {
+      index = Math.max(0, Math.min(slides.length - 1, next));
+      render();
+    }
+
+    window.addEventListener("keydown", (event) => {
+      if (["ArrowRight", "PageDown", " "].includes(event.key)) go(index + 1);
+      if (["ArrowLeft", "PageUp"].includes(event.key)) go(index - 1);
+      if (event.key === "Home") go(0);
+      if (event.key === "End") go(slides.length - 1);
+      if (event.key.toLowerCase() === "n") document.body.classList.toggle("show-notes");
+    });
+
+    const match = location.hash.match(/slide-(\d+)/);
+    if (match) index = Math.max(0, Math.min(slides.length - 1, Number(match[1]) - 1));
+    render();
+  </script>
+</body>
+</html>
